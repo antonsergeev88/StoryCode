@@ -1,0 +1,171 @@
+import UIKit
+
+{% for i in 0...20 %}
+
+public struct Scene{{forloop.counter0}}<ViewController: UIViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}: AnyObject{% endfor %}{% endif %}> {
+    let viewController: () -> ViewController
+    {% if not forloop.first %}
+    {% for j in 1...forloop.counter0 %}
+    let e{{j}}: () -> E{{j}}
+    {% endfor %}
+    {% endif %}
+}
+
+{% if not forloop.last %}
+extension Scene{{forloop.counter0}} {
+    public func with<E{{forloop.counter}}>(_ e{{forloop.counter}}: @escaping () -> E{{forloop.counter}}) -> Scene{{forloop.counter}}<ViewController{%for j in 1...forloop.counter%}, E{{j}}{%endfor%}> {
+        return Scene{{forloop.counter}}(viewController: viewController{%for j in 1...forloop.counter%}, e{{j}}: e{{j}}{%endfor%})
+    }
+}
+{% endif %}
+
+extension Scene{{forloop.counter0}} {
+
+    public func instantiate() -> ViewController {
+        let viewController = self.viewController()
+        {% if not forloop.first %}
+        {% for j in 1...forloop.counter0 %}
+        let e{{j}} = self.e{{j}}()
+        {% endfor %}
+        {% endif %}
+        {% if not forloop.first %}
+        viewController.extras = ({% if not forloop.first %}{% for j in 1...forloop.counter0 %}{% if forloop.first %}e{{j}}{% else %}, e{{j}}{% endif %}{% endfor %}{% endif %})
+        {% endif %}
+        {% if not forloop.first %}
+        addViewObservers(viewController{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %})
+        {% endif %}
+        awake(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        return viewController
+    }
+
+    public func instantiate(connect: (ViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}{% endfor %}{% endif %}) -> Void) -> ViewController {
+        let viewController = self.viewController()
+        {% if not forloop.first %}
+        {% for j in 1...forloop.counter0 %}
+        let e{{j}} = self.e{{j}}()
+        {% endfor %}
+        {% endif %}
+        {% if not forloop.first %}
+        viewController.extras = ({% if not forloop.first %}{% for j in 1...forloop.counter0 %}{% if forloop.first %}e{{j}}{% else %}, e{{j}}{% endif %}{% endfor %}{% endif %})
+        {% endif %}
+        {% if not forloop.first %}
+        addViewObservers(viewController{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %})
+        {% endif %}
+        connect(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        awake(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        return viewController
+    }
+
+    public func instantiate(view: @escaping (ViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}{% endfor %}{% endif %}) -> UIView) -> ViewController {
+        let viewController = self.viewController()
+        {% if not forloop.first %}
+        {% for j in 1...forloop.counter0 %}
+        let e{{j}} = self.e{{j}}()
+        {% endfor %}
+        {% endif %}
+        {% if not forloop.first %}
+        viewController.extras = ({% if not forloop.first %}{% for j in 1...forloop.counter0 %}{% if forloop.first %}e{{j}}{% else %}, e{{j}}{% endif %}{% endfor %}{% endif %})
+        {% endif %}
+        {% if not forloop.first %}
+        addViewObservers(viewController{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %})
+        {% endif %}
+        addViewBuilder(view, viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        awake(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        return viewController
+    }
+
+    public func instantiate(connect: (ViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}{% endfor %}{% endif %}) -> Void, view: @escaping (ViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}{% endfor %}{% endif %}) -> UIView) -> ViewController {
+        let viewController = self.viewController()
+        {% if not forloop.first %}
+        {% for j in 1...forloop.counter0 %}
+        let e{{j}} = self.e{{j}}()
+        {% endfor %}
+        {% endif %}
+        {% if not forloop.first %}
+        viewController.extras = ({% if not forloop.first %}{% for j in 1...forloop.counter0 %}{% if forloop.first %}e{{j}}{% else %}, e{{j}}{% endif %}{% endfor %}{% endif %})
+        {% endif %}
+        {% if not forloop.first %}
+        addViewObservers(viewController{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %})
+        {% endif %}
+        addViewBuilder(view, viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        connect(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        awake(viewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %}{% endif %})
+        return viewController
+    }
+
+    {% if forloop.first %}
+    
+    private func addViewBuilder<View: UIView>(_ view: @escaping (ViewController) -> View, _ viewController: ViewController) {
+        viewController.viewBuilder = { [weak viewController] in
+            guard let viewController = viewController else {
+                return View()
+            }
+            return view(viewController)
+        }
+    }
+    {% else %}
+    private func addViewBuilder<View: UIView>(_ view: @escaping (ViewController{% for j in 1...forloop.counter0 %}, E{{j}}{% endfor %}) -> View, _ viewController: ViewController{% for j in 1...forloop.counter0 %}, _ e{{j}}: E{{j}}{% endfor %}) {
+        viewController.viewBuilder = { [weak viewController{% for j in 1...forloop.counter0 %}, weak e{{j}}{% endfor %}] in
+            guard let viewController = viewController{% for j in 1...forloop.counter0 %}, let e{{j}} = e{{j}}{% endfor %} else {
+                return View()
+            }
+            return view(viewController{% for j in 1...forloop.counter0 %}, e{{j}}{% endfor %})
+        }
+    }
+    {% endif %}
+
+    {% if not forloop.first %}
+    private func addViewObservers(_ viewController: ViewController{% for j in 1...forloop.counter0 %}, _ e{{j}}: E{{j}}{% endfor %}) {
+        viewController.didLoad = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewDidLoad() }
+            {% endfor %}
+        }
+        viewController.willAppear = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] animated in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewWillAppear(animated) }
+            {% endfor %}
+        }
+        viewController.didAppear = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] animated in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewDidAppear(animated) }
+            {% endfor %}
+        }
+        viewController.willDisappear = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] animated in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewWillDisappear(animated) }
+            {% endfor %}
+        }
+        viewController.didDisappear = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] animated in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewDidDisappear(animated) }
+            {% endfor %}
+        }
+        viewController.willLayoutSubviews = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewWillLayoutSubviews() }
+            {% endfor %}
+        }
+        viewController.didLayoutSubviews = { [{% for j in 1...forloop.counter0 %}{% if forloop.first %}weak e{{j}}{% else %}, weak e{{j}}{% endif %}{% endfor %}] in
+            {% for j in 1...forloop.counter0 %}
+            if let observer = e{{j}} as? ViewObserver { observer.viewDidLayoutSubviews() }
+            {% endfor %}
+        }
+    }
+    {% endif %}
+
+    {% if forloop.first %}
+    private func awake(_ viewController: ViewController) {
+        if let awakable = viewController as? Awakable { awakable.awake() }
+    }
+    {% else %}
+    private func awake(_ viewController: ViewController{% for j in 1...forloop.counter0 %}, _ e{{j}}: E{{j}}{% endfor %}) {
+        if let awakable = viewController as? Awakable { awakable.awake() }
+        {% for j in 1...forloop.counter0 %}
+        if let awakable = e{{j}} as? Awakable { awakable.awake() }
+        {% endfor %}
+    }
+    {% endif %}
+
+}
+{% endfor %}
