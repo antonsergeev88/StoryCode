@@ -41,6 +41,7 @@
 		321EF38622F398A50070A582 /* StoryCodeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryCodeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		321EF38822F398A50070A582 /* DITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DITests.swift; sourceTree = "<group>"; };
 		321EF38A22F398A50070A582 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3235A17322F4DCF10048558F /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		32549BD422F0C6A300347578 /* SceneN.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = SceneN.stencil; sourceTree = "<group>"; };
 		32549BD622F0C7EF00347578 /* SceneN.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneN.generated.swift; sourceTree = "<group>"; };
 		32549BDA22F0CFDB00347578 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
@@ -113,11 +114,12 @@
 		3292670C22EB7B8A00B142AB = {
 			isa = PBXGroup;
 			children = (
-				32E077F322F2F1DE003D705A /* README.md */,
 				3292671822EB7B8A00B142AB /* StoryCode */,
 				321EF38722F398A50070A582 /* StoryCodeTests */,
 				3292671722EB7B8A00B142AB /* Products */,
+				32E077F322F2F1DE003D705A /* README.md */,
 				32E077F222F2F1DE003D705A /* LICENSE */,
+				3235A17322F4DCF10048558F /* Package.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -189,6 +191,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3292671E22EB7B8A00B142AB /* Build configuration list for PBXNativeTarget "StoryCode" */;
 			buildPhases = (
+				3259797622F4D1A000E2A3EC /* Sourcery */,
 				3292671122EB7B8A00B142AB /* Headers */,
 				3292671222EB7B8A00B142AB /* Sources */,
 				3292671322EB7B8A00B142AB /* Frameworks */,
@@ -257,6 +260,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3259797622F4D1A000E2A3EC /* Sourcery */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = Sourcery;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "path_to_sourcery=$(which sourcery)\nif [ -x \"$path_to_sourcery\" ] ; then\nsourcery --sources ./StoryCode --templates ./StoryCode/Templates --output ./StoryCode/Generated\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		321EF38222F398A50070A582 /* Sources */ = {
@@ -451,7 +475,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Osize";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

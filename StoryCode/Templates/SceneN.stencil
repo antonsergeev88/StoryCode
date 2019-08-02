@@ -1,6 +1,6 @@
 import UIKit
 
-{% for i in 0...20 %}
+{% for i in 0...10 %}
 
 public struct Scene{{forloop.counter0}}<ViewController: UIViewController{% if not forloop.first %}{% for j in 1...forloop.counter0 %}, E{{j}}: AnyObject{% endfor %}{% endif %}> {
     let viewController: () -> ViewController
