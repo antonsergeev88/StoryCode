@@ -13,6 +13,8 @@
 		32549BDB22F0CFDB00347578 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32549BDA22F0CFDB00347578 /* Scene.swift */; };
 		325A4C7422F47F9300FB5698 /* AwakableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325A4C7322F47F9300FB5698 /* AwakableTests.swift */; };
 		325A4C7622F4824E00FB5698 /* ViewObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325A4C7522F4824E00FB5698 /* ViewObserverTests.swift */; };
+		326C020622F4F15E00254016 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C020522F4F15E00254016 /* Role.swift */; };
+		326C020822F4F23E00254016 /* UIViewController+Roles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326C020722F4F23E00254016 /* UIViewController+Roles.swift */; };
 		3292671B22EB7B8A00B142AB /* StoryCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 3292671922EB7B8A00B142AB /* StoryCode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3292674A22EB917300B142AB /* UIViewController+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3292674922EB917300B142AB /* UIViewController+Extras.swift */; };
 		32E93C4722EDD94C001B43D9 /* Awakable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E93C4622EDD94C001B43D9 /* Awakable.swift */; };
@@ -47,6 +49,8 @@
 		32549BDA22F0CFDB00347578 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
 		325A4C7322F47F9300FB5698 /* AwakableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwakableTests.swift; sourceTree = "<group>"; };
 		325A4C7522F4824E00FB5698 /* ViewObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewObserverTests.swift; sourceTree = "<group>"; };
+		326C020522F4F15E00254016 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		326C020722F4F23E00254016 /* UIViewController+Roles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Roles.swift"; sourceTree = "<group>"; };
 		3292671622EB7B8A00B142AB /* StoryCode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StoryCode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3292671922EB7B8A00B142AB /* StoryCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryCode.h; sourceTree = "<group>"; };
 		3292671A22EB7B8A00B142AB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			children = (
 				3292671922EB7B8A00B142AB /* StoryCode.h */,
 				3292674922EB917300B142AB /* UIViewController+Extras.swift */,
+				326C020722F4F23E00254016 /* UIViewController+Roles.swift */,
 				32E93C4822EDE0C5001B43D9 /* UIViewController+ViewBuilder.swift */,
 				32E93C4A22EDE103001B43D9 /* UIViewController+DidLoad.swift */,
 				32E93C5022EE5088001B43D9 /* UIViewController+WillAppear.swift */,
@@ -145,6 +150,7 @@
 				32E93C5622EE528D001B43D9 /* UIViewController+DidDisappear.swift */,
 				32E93C5822EE5336001B43D9 /* UIViewController+WillLayoutSubviews.swift */,
 				32E93C5A22EE5386001B43D9 /* UIViewController+DidLayoutSubviews.swift */,
+				326C020522F4F15E00254016 /* Role.swift */,
 				32549BDA22F0CFDB00347578 /* Scene.swift */,
 				32E93C4622EDD94C001B43D9 /* Awakable.swift */,
 				32E93C4C22EDFAD5001B43D9 /* ViewObserver.swift */,
@@ -298,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E93C4D22EDFAD5001B43D9 /* ViewObserver.swift in Sources */,
+				326C020622F4F15E00254016 /* Role.swift in Sources */,
 				3292674A22EB917300B142AB /* UIViewController+Extras.swift in Sources */,
 				32549BD722F0C7F000347578 /* SceneN.generated.swift in Sources */,
 				32E93C4B22EDE103001B43D9 /* UIViewController+DidLoad.swift in Sources */,
@@ -305,6 +312,7 @@
 				32E93C5322EE5194001B43D9 /* UIViewController+DidAppear.swift in Sources */,
 				32E93C5922EE5336001B43D9 /* UIViewController+WillLayoutSubviews.swift in Sources */,
 				32E93C5522EE5201001B43D9 /* UIViewController+WillDisappear.swift in Sources */,
+				326C020822F4F23E00254016 /* UIViewController+Roles.swift in Sources */,
 				32549BDB22F0CFDB00347578 /* Scene.swift in Sources */,
 				32E93C4922EDE0C5001B43D9 /* UIViewController+ViewBuilder.swift in Sources */,
 				32E93C5722EE528D001B43D9 /* UIViewController+DidDisappear.swift in Sources */,

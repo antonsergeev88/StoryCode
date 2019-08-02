@@ -11,7 +11,7 @@ import UIKit
 public typealias Scene = Scene0
 
 extension Scene {
-    public init(_ viewController: @escaping () -> ViewController) {
+    public init(roles: [Role] = [], _ viewController: @escaping () -> ViewController) {
         let _ = UIViewController.initializeLoadViewBuilder
         let _ = UIViewController.initializeDidLoad
         let _ = UIViewController.initializeWillAppear
@@ -21,6 +21,10 @@ extension Scene {
         let _ = UIViewController.initializeWillLayoutSubviews
         let _ = UIViewController.initializeDidLayoutSubviews
 
-        self.viewController = viewController
+        self.viewController = {
+            let vc = viewController()
+            vc.roles = roles
+            return vc
+        }
     }
 }
