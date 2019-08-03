@@ -31,12 +31,12 @@ protocol Awakable {
 }
 ```
 
-в этом случае метод `awake()`  будет вызыван сразу послу замыкания `connect`. К этому моменту будут внедрены все зависимости, не связанные с `View`.
+в этом случае метод `awake()`  будет вызыван сразу после замыкания `connect`. К этому моменту будут внедрены все зависимости, не связанные с `View`.
 
 Дополнительно, все зависимости могут удовлетворять протоколу `ViewObserver`
 
 ```swift
-public protocol ViewObserver {
+protocol ViewObserver {
     func viewDidLoad()
     func viewWillAppear(_ animated: Bool)
     func viewDidAppear(_ animated: Bool)
@@ -52,7 +52,83 @@ public protocol ViewObserver {
 ## Установка
 
 Carthage: `github "antonsergeev88/StoryCode" ~> 1.0`
+
 CocoaPods: `pod 'StoryCode', '~> 1.0'`
+
+## Для чего нужен StoryCode?
+
+### Фабрика `UIViewController`'ов
+
+Распространенная практика в проекте иметь фабрику, которая отдаёт экземпляры `UIViewController`. При использовании `StoryCode` такая фабрика будет выглядеть консистентно при создании каждого экземпляра, это упростит и ускорит работу с кодом, например:
+
+```swift
+enum Scenes {
+    static func cityDetail(for cityID: City.ID) -> UIViewController {
+        return Scene({
+            return UIViewController()
+        }) .with {
+            return Services.cityProvider
+        } .with {
+            return CityController(cityID)
+        } .instantiate(connect: { _, cityProvider, cityController in
+            cityController.cityProvider = cityProvider
+        }, view: { _, _, cityController in
+            let tableView = UITableView()
+            tableView.dataSource = cityController
+            tableView.delegate = cityController
+            return tableView
+        })
+    }
+}
+```
+
+В примере выше мы создали простой контроллер с двумя зависимостями. В реальных примерах контроллеры могут быть значительно больше и их количество может достигать сотен, но при использовании `StoryCode` описание каждого из них всегда будет выглядеть одинакого и не придётся тратить время на изучение каждого из них.
+
+`UIViewController`'ы удобно собирать в экраны или даже несколько экранов, например:
+
+```swift
+enum Stories {
+    static func main() -> UIViewController {
+        let cityList = Scene.cityList()
+        let cityNavigation = Scene.stackNavigation(root: cityList)
+        /*...*/
+        let tabNavigation = Scene.arrayNavigation([cityNavigation, ...])
+        return tabNavigation
+    }
+}
+```
+
+### Упрощение поддержки
+
+Часто необходимо добавить какой-то функционал в работающий контроллер, например логирование нажатия кнопки. С точки зрения архитектуры такие правки не должны менять существующий код, `StoryCode` позволяет это сделать:
+
+```swift
+enum Scenes {
+    static func cityDetail(for cityID: City.ID) -> UIViewController {
+        return Scene({
+            return UIViewController()
+        }) /*...*/ .with {
+            return Services.logger
+        } .instantiate(connect: { /*...*/ }, view: { _, _, cityController, logger in
+            /*...*/
+            cityController.buttonDidTap.bind { [weak logger] in
+                logger?.log(.buttonDitTap)
+            }
+            return tableView
+        })
+    }
+}
+```
+
+### Жизненный цикл `UIViewController`
+
+Обычно для наблюдения за жизненным циклом `View` необходимо в подклассе `UIViewController`'а описать необходимую логику, это со временем приведёт к тому, что подкласс `UIViewController`'а будет слишком большим для его простой поддержки. Можно начать выделять код в отдельные классы, и в коде `UIVieController`'а уведомлять новые объекты о событиях, но это лишь прячет проблему большого `UIViewController`'а за сложным и глубоким графом зависимостей, что в последствии приводит к тем же самым сложностям в поддержке кода.
+
+`StoryCode` вызывает методы жизненного цикла синхронно с аналогичными методами `UIViewController`'а без необходимости написания кода.
+
+### Упрощение графа зависимостей
+
+Благодаря тому, что `StoryCode` позволяет создавать любые графы объектов, становится возможным проектировать объекты в узлах таких графов не нарушая принцип единой ответственности, что делает их простыми в написании и поддержке.  
 
 ## Описание
 
