@@ -55,7 +55,7 @@ Carthage: `github "antonsergeev88/StoryCode" ~> 1.0`
 
 CocoaPods: `pod 'StoryCode', '~> 1.0'`
 
-## Для чего нужен StoryCode?
+## Для чего нужен StoryCode
 
 ### Фабрика `UIViewController`'ов
 
