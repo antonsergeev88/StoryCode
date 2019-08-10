@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                      = 'StoryCode'
-  s.version                   = '1.0.1'
+  s.version                   = '1.0.2'
   s.summary                   = 'DI for UIViewControllers.'
   s.homepage                  = 'https://github.com/antonsergeev88/StoryCode'
   s.source                    = { :git => s.homepage + '.git', :tag => s.version }
