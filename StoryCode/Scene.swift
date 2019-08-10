@@ -6,6 +6,8 @@
 //  Copyright © 2019 antonsergeev88. All rights reserved.
 //
 
+import UIKit
+
 public typealias Scene = Scene0
 
 extension Scene {
