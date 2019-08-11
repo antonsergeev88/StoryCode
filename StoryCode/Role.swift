@@ -12,22 +12,6 @@ public struct Role {
 
 }
 
-extension Role {
-
-    public struct Name: Equatable {
-        let value: String
-    }
-
-}
-
-extension Role: ExpressibleByStringLiteral {
-
-    public init(stringLiteral: String) {
-        self.name = stringLiteral
-    }
-
-}
-
 extension Role: RawRepresentable {
 
     public var rawValue: String {
@@ -35,6 +19,14 @@ extension Role: RawRepresentable {
     }
 
     public init(rawValue: String) {
-        self.name = rawValue
+        self.init(name: rawValue)
     }
+}
+
+extension Role: ExpressibleByStringLiteral {
+
+    public init(stringLiteral: String) {
+        self.init(name: stringLiteral)
+    }
+
 }
