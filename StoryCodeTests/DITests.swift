@@ -105,6 +105,7 @@ class DITests: XCTestCase {
             XCTAssertNil(view)
             expectation.fulfill()
         }
+        wait(for: [expectation], timeout: 1)
     }
 
 }
