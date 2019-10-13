@@ -50,14 +50,22 @@ class DITests: XCTestCase {
     }
 
     func testNotLeakingExtras() {
-        weak var dep = (viewController?.extras as? (Dep, Dep))?.0
-        XCTAssertNotNil(dep)
-        viewController = nil
         let expectation = XCTestExpectation()
-        DispatchQueue.main.async {
-            XCTAssertNil(dep)
-            expectation.fulfill()
+        DispatchQueue.global().async { [weak self] in
+            guard let self = self else {
+                XCTAssert(false)
+                expectation.fulfill()
+                return
+            }
+            weak var dep = (self.viewController?.extras as? (Dep, Dep))?.0
+            XCTAssertNotNil(dep)
+            self.viewController = nil
+            DispatchQueue.main.async {
+                XCTAssertNil(dep)
+                expectation.fulfill()
+            }
         }
+        wait(for: [expectation], timeout: 1)
     }
 
     func testConnectDeps() {
